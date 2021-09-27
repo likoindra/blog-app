@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import Topbar from "./components/topbar/Topbar";
+import Homepage from "./pages/homepage/Homepage";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
+
+//Redux
+import {Provider} from 'react-redux';  
+import store from './redux/store';
+
+
+
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
+  // const currentUser = false;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+    <Router>
+      <Topbar />
+      <Switch>
+        <Route exact path="/">
+          <Homepage />
+        </Route>
+        <Route path="/posts">
+          <Homepage />
+        </Route>
+        <Route path="/register">
+          <Register/>
+          {/* {currentUser ? <Homepage /> : <Register />} */}
+        </Route>
+        <Route path="/login"> <Login/> </Route>
+      </Switch>
+    </Router>
+    </Provider>
   );
 }
 
