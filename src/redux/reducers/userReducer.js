@@ -1,4 +1,4 @@
-import { SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED } from "../type";
+import { SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED} from "../type";
 
 const initialState = {
   authenticated: false,
@@ -17,6 +17,7 @@ export default function (state = initialState, action) {
     case SET_UNAUTHENTICATED: // UNTUK SIGN OUT
       return {
         initialState,
+        authenticated: false,
         credentials: {},
       };
     case SET_USER:

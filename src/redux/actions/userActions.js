@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SET_USER, SET_ERRORS, CLEAR_ERRORS } from "../type";
+import { SET_USER, SET_ERRORS, CLEAR_ERRORS, SET_AUTHENTICATED ,SET_UNAUTHENTICATED} from "../type";
 
 // Fungsi User ketika login
 export const loginUser = (userData, history) => (dispatch) => {
@@ -8,7 +8,8 @@ export const loginUser = (userData, history) => (dispatch) => {
     .post(api, userData)
     .then((res) => {
       setAuthorizationHeader(res.data.access_token);
-    //   dispatch(getUserData());
+      //   mengubah authetication menjadi true
+      dispatch({ type: SET_AUTHENTICATED });
       dispatch({ type: CLEAR_ERRORS });
       history.push("/"); // untuk redirect ke tempat tujuan url
     })
@@ -33,6 +34,12 @@ export const getUserData = () => (dispatch) => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+export const Logout = () => (dispatch) => {
+  localStorage.removeItem("blogToken");
+  delete axios.defaults.headers.common["Authorization"];
+  dispatch({ type: SET_UNAUTHENTICATED });
 };
 
 const setAuthorizationHeader = (token) => {
