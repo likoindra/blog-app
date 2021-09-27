@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import "./login.css";
 
 //Redux stuff
@@ -12,13 +14,33 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleClick = () => {
-    const newData = {
-      username: username,
-      password: password,
-    };
-    dispatch(loginUser(newData, history));
-  };
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      username: Yup.string()
+        .min(2, "Mininum 2 characters")
+        .max(20, "Maximum 20 characters")
+        .required("Required!"),
+      password: Yup.string()
+        .min(8, "Minimum 8 characters")
+        .required("Required!"),
+    }),
+
+    onSubmit: (values) => {
+      dispatch(loginUser(values, history));
+    },
+  });
+
+  //   const handleClick = () => {
+  //     const newData = {
+  //       username: username,
+  //       password: password,
+  //     };
+  //     dispatch(loginUser(newData, history));
+  //   };
 
   const handleChangeUser = (event) => {
     setUsername(event.target.value);
@@ -33,11 +55,11 @@ function Login() {
   return (
     <div className="login">
       <span className="loginTitle">Login</span>
-      <form className="loginForm" onSubmit={handleClick}>
+      <form className="loginForm" onSubmit={formik.handleSubmit}>
         <label>Username</label>
         <input
-          onChange={handleChangeUser}
-          value={username}
+          onChange={formik.handleChange}
+          value={formik.values.username}
           name="username"
           className="loginInput"
           type="text"
@@ -45,9 +67,9 @@ function Login() {
         />
         <label>Password</label>
         <input
-          onChange={handleChangePassword}
-          value={password}
-          password="password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+          name="password"
           className="loginInput"
           type="password"
           placeholder="Enter your password..."
