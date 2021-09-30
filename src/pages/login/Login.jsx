@@ -18,6 +18,7 @@ function Login() {
     initialValues: {
       username: "",
       password: "",
+      rememberPassword: false,
     },
     validationSchema: Yup.object({
       username: Yup.string()
@@ -27,6 +28,7 @@ function Login() {
       password: Yup.string()
         .min(8, "Minimum 8 characters")
         .required("Required!"),
+      rememberPassword: Yup.string().required("Required!"),
     }),
 
     onSubmit: (values) => {
@@ -74,6 +76,9 @@ function Login() {
           type="password"
           placeholder="Enter your password..."
         />
+        <label htmlFor="">Remember password</label>
+        <input type="checkbox" value={formik.values.rememberPassword} />
+
         <button className="loginButton">Login</button>
       </form>
     </div>

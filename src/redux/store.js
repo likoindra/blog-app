@@ -23,7 +23,7 @@ const store = createStore(
     initialState, 
     compose( // compose berfungsi untuk menerapkan middleware kedalam store dan extension redux_devtool
         applyMiddleware(...middleware), 
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 )
 
